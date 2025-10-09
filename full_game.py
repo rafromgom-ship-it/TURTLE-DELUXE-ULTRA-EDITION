@@ -1,3 +1,10 @@
+"""Versión incompleta del juego de tortugas.
+
+Las secciones marcadas con TODO deben rellenarse utilizando tipos, variables,
+diccionarios, bucles y funciones. El archivo acabado debería comportarse como
+``full_game.py`` una vez estén resueltos todos los TODO.
+"""
+
 from __future__ import annotations
 
 import turtle
@@ -10,10 +17,13 @@ START_X = -320
 FINISH_X = 300
 LANE_HEIGHT = 80
 LINE_EXTRA_HEIGHT = 30
-number_of_runners = int(4)
-
-RUNNER_SPEEDS: dict[str, float] = { "green" : random.uniform(1.85, 2.0), "blue" : random.uniform(1.85, 2.0), "red" : random.uniform(1.85, 2.0), "purple" : random.uniform(1.85, 2.0)}
-
+number_of_runners = int(6)
+colores = [
+    "red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", 
+    "gray", "cyan", "magenta", "lime", "maroon", "navy", "olive", "teal", "aqua", "fuchsia",
+    "silver", "gold", "coral", "crimson", "indigo", "khaki", "lavender", "orchid", "plum",
+    "salmon", "tan", "tomato", "violet"
+]
 
 def prepare_screen() -> turtle.Screen:
     """Devuelve la pantalla de Turtle configurada para la carrera."""
@@ -40,7 +50,7 @@ def draw_track(num_lanes: int) -> None:
     """Dibuja las líneas horizontales de la pista."""
     painter = turtle.Turtle(visible=False)
     painter.speed(0)
-    painter.pensize(2)
+    painter.pensize(4)
     total_length = FINISH_X - START_X
     positions = calculate_lane_positions(number_of_runners)
     for i in range(num_lanes):
@@ -88,28 +98,29 @@ def setup_track(screen: turtle.Screen, num_lanes: int) -> None:
     screen.tracer(1)
 
 
-def create_runners(speed_map: dict[str, float]) -> list[tuple[turtle.Turtle, float]]:
+def create_runners(number_of_runners: int) -> list[tuple[turtle.Turtle, float]]:
     """Crea tortugas a partir de un diccionario de velocidades."""
     corredores = []
 
-    positions = calculate_lane_positions(len(speed_map))
+    positions = calculate_lane_positions(number_of_runners)
 
-    for (colro, velocidad), y in zip(speed_map.items(), positions):
+    for i in range(number_of_runners):
         tortuga = turtle.Turtle(shape="turtle")
-        tortuga.color(colro)
+        tortuga.color(colores.pop(random.randint(0, len(colores)-1)))
         tortuga.penup()
-        tortuga.goto(START_X, y)  # Posición inicial
+        tortuga.goto(START_X, positions[i])
         tortuga.setheading(0)
         # ...añade la tortuga y velocidad a la lista de corredores...
-        corredores.append((tortuga, velocidad))
+        corredores.append(tortuga)
     return corredores
 
 
-def run_race(racers: list[tuple[turtle.Turtle, float]]) -> turtle.Turtle:
+def run_race(racers: list[turtle.Turtle]) -> turtle.Turtle:
     """Avanza a las tortugas hasta que alguna cruza la línea de meta."""
     winner = None
     while winner is None:
-        for tortuga, velocidad in racers:
+        for tortuga in racers:
+            velocidad = random.uniform(1.2, 7.0)
             tortuga.forward(velocidad)
             if tortuga.xcor() >= FINISH_X:
                 winner = tortuga
@@ -128,12 +139,10 @@ def show_winner_message(winner: turtle.Turtle) -> None:
     )
 
 
-def main(speed_map: dict[str, float] | None = None) -> None:
+def main() -> None:
     screen = prepare_screen()
     setup_track(screen, number_of_runners)
-    if not speed_map:
-        speed_map = RUNNER_SPEEDS
-    racers = create_runners(speed_map)
+    racers = create_runners(number_of_runners)
     winner = run_race(racers)
     show_winner_message(winner)
     print(f"¡La tortuga ganadora es de color {winner.color()[0]}!")
