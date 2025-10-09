@@ -50,7 +50,7 @@ def draw_track(num_lanes: int) -> None:
     """Dibuja las líneas horizontales de la pista."""
     painter = turtle.Turtle(visible=False)
     painter.speed(0)
-    painter.pensize(4)
+    painter.pensize(2)
     total_length = FINISH_X - START_X
     positions = calculate_lane_positions(number_of_runners)
     for i in range(num_lanes):
