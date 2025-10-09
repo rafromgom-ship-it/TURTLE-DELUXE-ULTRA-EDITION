@@ -1,10 +1,3 @@
-"""Versión incompleta del juego de tortugas.
-
-Las secciones marcadas con TODO deben rellenarse utilizando tipos, variables,
-diccionarios, bucles y funciones. El archivo acabado debería comportarse como
-``full_game.py`` una vez estén resueltos todos los TODO.
-"""
-
 from __future__ import annotations
 
 import turtle
@@ -19,8 +12,6 @@ LANE_HEIGHT = 80
 LINE_EXTRA_HEIGHT = 30
 number_of_runners = int(4)
 
-# TODO: crea un diccionario de velocidades con al menos tres tortugas
-#       usando colores como claves y distancias (float o int) como valores.
 RUNNER_SPEEDS: dict[str, float] = { "green" : random.uniform(1.85, 2.0), "blue" : random.uniform(1.85, 2.0), "red" : random.uniform(1.85, 2.0), "purple" : random.uniform(1.85, 2.0)}
 
 
